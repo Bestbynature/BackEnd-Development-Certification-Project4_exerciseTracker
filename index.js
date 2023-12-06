@@ -49,6 +49,8 @@ app.get("/api/users", (req, res) => {
 // });
 
 // Add exercise for a user
+// The response returned from POST /api/users/:_id/exercises will be the user object with the exercise fields added.
+
 app.post("/api/users/:_id/exercises", (req, res) => {
   const { _id } = req.params;
   const { description, duration, date } = req.body;
