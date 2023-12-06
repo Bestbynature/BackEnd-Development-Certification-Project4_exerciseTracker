@@ -63,10 +63,10 @@ app.post('/api/users/:_id/exercises', (req, res) => {
     duration: parseInt(duration),
     date: date ? new Date(date).toDateString() : new Date().toDateString(),
   };
-  if (!user.log) {
-    user.log = [];
-  }
-  user.log.push(exercise);
+  // if (!user.log) {
+  //   user.log = [];
+  // }
+  // user.log.push(exercise);
   
   // Return the user object with the exercise fields added
   res.json({
