@@ -10,9 +10,9 @@ app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/views/index.html')
-  });
+app.get("/", (req, res) => {
+  res.sendFile(__dirname + "/views/index.html");
+});
 
 let users = [];
 
@@ -48,7 +48,7 @@ app.post("/api/users/:_id/exercises", (req, res) => {
   //   user.log = [];
   // }
   // user.log.push(exercise);
-  
+
   // if (!user.log) {
   //   user.log = [];
   // }
