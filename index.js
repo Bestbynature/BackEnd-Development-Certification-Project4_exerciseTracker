@@ -10,6 +10,10 @@ app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/views/index.html')
+  });
+
 let users = [];
 
 // Create new user
