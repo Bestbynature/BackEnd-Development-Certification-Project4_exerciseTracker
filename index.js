@@ -1,19 +1,19 @@
-const express = require('express');
+const express = require("express");
 const app = express();
-const cors = require('cors');
-const bodyParser = require('body-parser'); // To parse form data
-const { v4: uuidv4 } = require('uuid'); // To generate unique IDs
-require('dotenv').config();
+const cors = require("cors");
+const bodyParser = require("body-parser"); // To parse form data
+const { v4: uuidv4 } = require("uuid"); // To generate unique IDs
+require("dotenv").config();
 
 app.use(cors());
-app.use(express.static('public'));
+app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 let users = [];
 
 // Create new user
-app.post('/api/users', (req, res) => {
+app.post("/api/users", (req, res) => {
   const { username } = req.body;
   const newUser = {
     username,
@@ -24,7 +24,7 @@ app.post('/api/users', (req, res) => {
 });
 
 // Get list of all users
-app.get('/api/users', (req, res) => {
+app.get("/api/users", (req, res) => {
   res.json(users);
 });
 
@@ -51,12 +51,12 @@ app.get('/api/users', (req, res) => {
 // Add exercise for a user
 // The response returned from POST /api/users/:_id/exercises will be the user object with the exercise fields added.
 
-app.post('/api/users/:_id/exercises', (req, res) => {
+app.post("/api/users/:_id/exercises", (req, res) => {
   const { _id } = req.params;
   const { description, duration, date } = req.body;
-  const user = users.find(user => user._id === _id);
+  const user = users.find((user) => user._id === _id);
   if (!user) {
-    return res.status(404).json({ error: 'User not found' });
+    return res.status(404).json({ error: "User not found" });
   }
   const exercise = {
     description,
@@ -68,6 +68,11 @@ app.post('/api/users/:_id/exercises', (req, res) => {
   // }
   // user.log.push(exercise);
   
+  if (!user.log) {
+    user.log = [];
+  }
+  user.log.push(exercise);
+
   // Return the user object with the exercise fields added
   res.json({
     _id: user._id,
@@ -78,13 +83,12 @@ app.post('/api/users/:_id/exercises', (req, res) => {
   });
 });
 
-
 // Get exercise log of a user
-app.get('/api/users/:_id/logs', (req, res) => {
+app.get("/api/users/:_id/logs", (req, res) => {
   const { _id } = req.params;
-  const user = users.find(user => user._id === _id);
+  const user = users.find((user) => user._id === _id);
   if (!user) {
-    return res.status(404).json({ error: 'User not found' });
+    return res.status(404).json({ error: "User not found" });
   }
   let { from, to, limit } = req.query;
   let log = user.log || [];
@@ -92,7 +96,7 @@ app.get('/api/users/:_id/logs', (req, res) => {
   if (from && to) {
     const fromDate = new Date(from);
     const toDate = new Date(to);
-    log = log.filter(exercise => {
+    log = log.filter((exercise) => {
       const exerciseDate = new Date(exercise.date);
       return exerciseDate >= fromDate && exerciseDate <= toDate;
     });
@@ -112,9 +116,8 @@ app.get('/api/users/:_id/logs', (req, res) => {
 });
 
 const listener = app.listen(process.env.PORT || 3000, () => {
-  console.log('Your app is listening on port ' + listener.address().port);
+  console.log("Your app is listening on port " + listener.address().port);
 });
-
 
 // const express = require('express')
 // const app = express()
@@ -126,11 +129,6 @@ const listener = app.listen(process.env.PORT || 3000, () => {
 // app.get('/', (req, res) => {
 //   res.sendFile(__dirname + '/views/index.html')
 // });
-
-
-
-
-
 
 // const listener = app.listen(process.env.PORT || 3000, () => {
 //   console.log('Your app is listening on port ' + listener.address().port)
